@@ -2,28 +2,22 @@
 
 namespace App\Models;
 
-use App\Entities\Raffle;
+use App\Entities\Prize;
 use App\Models\Basic\AppModel;
 
-class RaffleModel extends AppModel
+class PrizeModel extends AppModel
 {
-    protected $table            = 'raffles';
+    protected $table            = 'prizes';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = Raffle::class;
+    protected $returnType       = Prize::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'creator_id',
         'title',
-        'description',
-        'price',
-        'total_tickets',
-        'sold_tickets',
-        'draw_date',
-        'winning_number',
-        'values_transferred',
-
+        'image_url',
+        'description'
     ];
 
 
@@ -33,29 +27,29 @@ class RaffleModel extends AppModel
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
+
     // Callbacks
     protected $allowCallbacks = true;
     protected $beforeInsert   = ['escapeData', 'setCode', 'setCreatorId'];
     protected $beforeUpdate   = ['escapeData'];
-
 
     public function all(): array
     {
         return $this->whereCreator()->orderBy('created_at', 'DESC')->findAll();
     }
 
-    public function getByCode(string $code, bool $withPrizes = false): Raffle
+    public function getByCode(string $code, bool $withRaffles = false): Prize
     {
-        $raffle = $this->whereCreator()->where(['code' => $code])->first();
+        $prize = $this->whereCreator()->where(['code' => $code])->first();
 
-        if ($raffle === null) {
-            throw new PageNotFoundException("Não encontramos a sua rifa código: {$code}");
+        if ($prize === null) {
+            throw new PageNotFoundException("Não encontramos o seu prêmio código: {$code}");
         }
 
-        if ($withPrizes) {
-            $raffle->prizes = [];
+        if ($withRaffles) {
+            $prize->prizes = [];
         }
 
-        return $raffle;
+        return $prize;
     }
 }

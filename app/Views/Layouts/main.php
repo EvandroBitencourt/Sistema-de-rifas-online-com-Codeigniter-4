@@ -59,18 +59,20 @@
   <!-- Fixed navbar -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Fixed navbar</a>
+      <a class="navbar-brand" href="<?php echo route_to('home') ?>">Rifas Online</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="<?php echo route_to('raffles') ?>">Minhas Rifas</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link active" aria-current="page" href="<?php echo route_to('prizes') ?>">Meus prêmios</a>
           </li>
+        
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
@@ -85,7 +87,12 @@
 </header>
 
 <!-- Begin page content -->
-<main class="flex-shrink-0">
+<main class="flex-shrink-0 pt-4 pb-5">
+
+   <?php echo $this->include('Layouts/_messages') ?>
+
+   <?php echo validation_list_errors(template: '_list_custom_errors') ?>
+   
    <?php echo $this->renderSection('content') ?>
 </main>
 

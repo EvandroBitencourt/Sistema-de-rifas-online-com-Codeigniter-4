@@ -38,4 +38,22 @@ abstract class AppModel extends Model
 
         return $data;
     }
+
+    protected function setCreatorId(array $data): array
+    {
+        if (!isset($data['data'])) {
+            return $data;
+        }
+
+        $data['data']['creator_id'] = auth()->user()->id;
+
+        return $data;
+    }
+
+    public function whereCreator(): self
+    {
+        $this->where(["{$this->table}.creator_id" => auth()->user()->id]);
+
+        return $this;
+    }
 }
