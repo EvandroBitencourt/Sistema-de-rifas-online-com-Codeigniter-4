@@ -53,7 +53,7 @@ class RaffleModel extends AppModel
         }
 
         if ($withPrizes) {
-            $raffle->prizes = [];
+            $raffle->prizes = model(RafflePrizeModel::class)->getByRafflesIds([$raffle->id]);
         }
 
         return $raffle;
