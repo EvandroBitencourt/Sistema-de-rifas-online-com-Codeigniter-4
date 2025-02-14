@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Libraries\Raffle\HTMLService;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
@@ -48,9 +49,9 @@ class Raffle extends Entity
         return number_to_currency(num: $this->price / 100, currency: 'BRL', fraction: 2);
     }
 
-    public function prizes(): string
+    public function prizes(bool $showRoute = true): string
     {
-        return 'Ver os premios';
+        return (new HTMLService)->listPrizes(prizes: $this->prizes, showRoute: $showRoute);
     }
 
     public function ticketsRemaining(): int

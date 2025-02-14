@@ -9,6 +9,11 @@
 
 <?php echo $this->section('css'); ?>
 
+<!-- Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
 <?php echo $this->endSection(); ?>
 
 
@@ -35,24 +40,22 @@
             </ul>
 
 
-         
+            <?php echo form_open(
+                action: route_to('raffles.prizes.store', $raffle->code),
+                attributes: ['class' => 'd-inline'],
+                hidden: ['_method' => 'PUT']
+            ); ?>
 
-                <?php echo form_open(
-                    action: route_to('raffles.prizes.store', $raffle->code),
-                    attributes: ['class' => 'd-inline'],
-                    hidden: ['_method' => 'PUT']
-                ); ?>
+            <div class="mb-3">
+                <label for="prizes[]">Escolha os prêmios</label>
+                <?php echo $prizesOptions ?>
+            </div>
 
-                <div class="mb-3">
-                   <label for="prizes[]">Escolha os prêmios</label>
-                   <?php echo $prizesOptions ?>
-                </div>
+            <button type="submit" class="btn btn-primary">Associar prêmios</button>
 
-                <button type="submit" class="btn btn-primary">Associar prêmios</button>
+            <?php echo form_close(); ?>
 
-                <?php echo form_close(); ?>
 
-        
 
 
         </div>
@@ -65,5 +68,17 @@
 
 <?php echo $this->section('js'); ?>
 
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    // Inicializa o plugin Select2 no elemento com ID 'prizes'
+    $('#prizes').select2({
+        theme: 'bootstrap-5', // Define o tema do Select2 como Bootstrap 5 para combinar com o estilo do site
+        placeholder: '--- Escolha um ou mais prêmios ---', // Define um texto de espaço reservado dentro do campo
+    });
+</script>
 
 <?php echo $this->endSection(); ?>

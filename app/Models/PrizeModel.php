@@ -47,7 +47,8 @@ class PrizeModel extends AppModel
         }
 
         if ($withRaffles) {
-            $prize->prizes = [];
+
+            $prize->raffles = model(RafflePrizeModel::class)->getByPrizesIds([$prize->id]);
         }
 
         return $prize;

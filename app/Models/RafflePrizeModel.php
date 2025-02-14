@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Entities\Prize;
+use App\Entities\Raffle;
 use App\Models\Basic\AppModel;
 
 
@@ -40,4 +41,27 @@ class RafflePrizeModel extends AppModel
         // Retorna todos os registros encontrados
         return $this->findAll();
     }
+
+
+    public function getByPrizesIds(array $prizesIds): array {
+    
+        // Seleciona as colunas desejadas da tabela 'raffles' e 'raffles_prizes'
+        $this->select([
+            'raffles.*', // Quero todos os campos da tabela 'raffles'
+            'raffles_prizes.prize_id', // Precisamos dessa informação para uso em várias partes do código
+        ]);
+    
+        // Realiza um JOIN entre as tabelas 'raffles' e 'raffles_prizes' com base no ID da rifa
+        $this->join('raffles', 'raffles.id = raffles_prizes.raffle_id');
+    
+        // Filtra os resultados com base nos IDs dos prêmios fornecidos
+        $this->whereIn('raffles_prizes.prize_id', $prizesIds);
+    
+        // Retorna os resultados como objetos da classe Raffle
+        $this->asObject(Raffle::class);
+    
+        // Retorna todas as rifas encontradas
+        return $this->findAll();
+    }
+    
 }

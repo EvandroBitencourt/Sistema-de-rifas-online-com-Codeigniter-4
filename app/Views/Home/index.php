@@ -17,9 +17,66 @@
 
 <div class="container">
     <div class="container">
-        <h1 class="mt-5"><?php echo $title ?></h1>
-        <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code class="small">padding-top: 60px;</code> on the <code class="small">main &gt; .container</code>.</p>
-        <p>Back to <a href="/docs/5.0/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+        <?php if (empty($raffles)): ?>
+            <div class="text-center text-info display-6">Não há rifas disponíveis para compra</div>
+        <?php else: ?>
+            <div class="row">
+                <?php foreach ($raffles as $raffle) : ?>
+                    <div class="col-md-4 mb-2">
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $raffle->title; ?></h5>
+                                <div class="card-text">
+                                    <?php echo $raffle->description; ?>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Data do sorteio: <?php echo $raffle->draw_date; ?></li>
+                                <li class="list-group-item">Bilhetes (números) restantes: <?php echo $raffle->ticketsRemaining(); ?></li>
+                                <li class="list-group-item">Valor do Bilhete (número): <?php echo $raffle->price(); ?></li>
+                            </ul>
+
+                            <div class="card-body">
+                                <div class="container">
+                                    <a href="<?php echo route_to('tickets', $raffle->code); ?>" class="btn btn-danger">Escolha seus números</a>
+                                </div>
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+
+                                <?php $counter = 0; ?>
+
+                                <?php foreach ($raffle->prizes as $prize) : ?>
+
+                                    <?php if ($counter === 0) : ?>
+
+                                        <li class="list-group-item border-0">
+                                            <img src="<?php echo $prize->image_url; ?>" alt="Image" class="card-img-top img-fluid">
+                                            <div class="card-body">
+                                                <h5><?php echo $prize->title; ?></h5>
+                                                <p><?php echo $prize->description; ?></p>
+                                            </div>
+                                        </li>
+
+                                        <?php break; ?>
+
+                                    <?php endif; ?>
+
+                                    <?php $counter++ ?>
+
+                                <?php endforeach; ?>
+
+                            </ul>
+
+
+
+
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+        <?php endif; ?>
     </div>
 
 </div>

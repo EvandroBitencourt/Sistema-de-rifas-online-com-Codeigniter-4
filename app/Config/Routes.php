@@ -25,6 +25,7 @@ $routes->group('raffles', ['filter' => 'session'], static function ($routes) {
     $routes->group('prizes', ['filter' => 'session'], static function ($routes) {
 
         $routes->get('manage/(:segment)', [RafflesPrizesController::class,'manage/$1'], ['as' => 'raffles.prizes']);
+        $routes->put('store/(:segment)', [RafflesPrizesController::class,'store/$1'], ['as' => 'raffles.prizes.store']);
 
     });
 });
