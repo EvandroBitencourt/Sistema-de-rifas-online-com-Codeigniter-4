@@ -4,6 +4,7 @@ use App\Controllers\HomeController;
 use App\Controllers\PrizesController;
 use App\Controllers\RafflesController;
 use App\Controllers\RafflesPrizesController;
+use App\Controllers\RafflesTicketsController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -39,4 +40,8 @@ $routes->group('prizes', ['filter' => 'session'], static function ($routes) {
     $routes->put('update/(:segment)', [PrizesController::class,'update/$1'], ['as' => 'prizes.update']);
     $routes->delete('destroy/(:segment)', [PrizesController::class,'destroy/$1'], ['as' => 'prizes.destroy']);
     $routes->post('create', [PrizesController::class,'create'], ['as' => 'prizes.create']);
+});
+
+$routes->group('tickets', static function ($routes) {
+    $routes->get('display/(:segment)', [RafflesTicketsController::class,'display/$1'], ['as' => 'tickets']);
 });

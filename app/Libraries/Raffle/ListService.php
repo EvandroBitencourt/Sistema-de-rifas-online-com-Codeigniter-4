@@ -4,8 +4,10 @@ declare(strict_types=1); // Ativa a verificação estrita de tipos no PHP
 
 namespace App\Libraries\Raffle;
 
+use App\Entities\Raffle;
 use App\Models\RaffleModel;
 use App\Models\RafflePrizeModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 
 class ListService
@@ -46,6 +48,19 @@ class ListService
 
         // Retorna a lista de rifas com os prêmios associados
         return $raffles;
+    }
+
+    public function single(string $code): Raffle 
+    {
+        $raffle = $this->builder->where(['code' => $code])->first();
+
+        if($raffle === null){
+            throw new PageNotFoundException("A rifa código {$code} não foi encontrada");
+        }
+
+        $raffle->prizes = model(RafflePrizeModel::class)->getByRafflesIds(rafflesIds: [$raffle->id]);
+
+        return $raffle;
     }
 
 
